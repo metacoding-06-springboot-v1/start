@@ -19,7 +19,7 @@ public class BoardService {
                 .toList();
     }
 
-    // TODO : 실습 3 - findByIdJoinUser() 대신 findByIdJoinUserAndReplies() 호출
+    // TODO : 실습 4 - 상세 조회를 join fetch로 교체
     public BoardResponse.DetailDTO 게시글상세(Integer boardId, User loginUser) {
         Board board = boardRepository.findByIdJoinUser(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
@@ -32,7 +32,7 @@ public class BoardService {
         if (loginUser == null) {
             throw new Exception401("로그인이 필요합니다");
         }
-        Board savedBoard = boardRepository.save(requestDTO.toEntity(loginUser)); // DTO -> 엔티티 (작성자 연결)
+        Board savedBoard = boardRepository.save(requestDTO.toEntity(loginUser)); // DTO -> 엔티티 (회원 연결)
         return new BoardResponse.DTO(savedBoard);
     }
 
